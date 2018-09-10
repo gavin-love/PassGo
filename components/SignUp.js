@@ -56,24 +56,35 @@ class SignUp extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Sign up for an account here</Text>
-        <Text>User Name</Text>
-        <TextInput name='user-name' value={this.state.userName} onChangeText={(text) => this.setState({ userName: text })} style={styles.textInput} />
-        <Text>Email</Text>
-        <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
-        <Text>Password</Text>
-        <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
-        <Button title="sign up" onPress={() => {
-          this.handleSignUp();
-          this.props.navigation.navigate('Home');
-        }} />
+      <View style={styles.page}>
+          <View>
+            <Text style={styles.title}>Enter account info here:</Text>
+            <Text>User Name</Text>
+            <TextInput name='user-name' value={this.state.userName} onChangeText={(text) => this.setState({ userName: text })} style={styles.textInput} />
+            <Text>Email</Text>
+            <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
+            <Text>Password</Text>
+            <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
+            <View style={styles.submit}>
+              <Button title="sign up" onPress={() => {
+                this.handleSignUp();
+                this.props.navigation.navigate('Home');
+              }} />
+          </View>
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  page: {
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 30,
+    width: 200
+  },
   textInput: {
     height: 40,
     borderColor: 'grey',
@@ -81,11 +92,12 @@ const styles = StyleSheet.create({
     width: 200
   },
   submit: {
+    justifyContent: 'center',
     borderColor: 'grey',
     borderWidth: 1,
     height: 30,
-    width: 100,
-    borderRadius: 5
+    borderRadius: 5,
+    margin: 10
   }
 })
 

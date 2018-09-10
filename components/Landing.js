@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 import { auth, firebase } from '../firebase';
+import Geolocation from 'react-native-geolocation-service';
 // import PropTypes from 'prop-types';
 
 
@@ -27,13 +28,28 @@ class Landing extends Component {
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
-      .then(response => {
-        console.log(response)
+      .then(user => {
+        this.setState({
+          loggedIn: true,
+          displayName: user.user.displayName
+        })
       })
       .then(() => console.log('Welcome Back!'))
       .catch(error => {
         console.log(error.message)
       })
+  }
+
+  grabLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position)
+      },
+      (error) => {
+        console.log(error.message)
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 1000 }
+    );
   }
 
   componentDidMount() {
@@ -53,18 +69,22 @@ class Landing extends Component {
     if (!this.state.loggedIn) {
       return (
         <View style={styles.page}>
-          <Text>Email</Text>
-          <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
-          <Text>Password</Text>
-          <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
-          <View style={styles.submit}>
-            <Button title='submit' onPress={this.handleSignIn} />
+          <Text style={styles.title}>Log In:</Text>
+          <View style={styles.form}>
+            <Text>Email</Text>
+            <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
+            <Text>Password</Text>
+            <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
+            <View style={styles.submit}>
+              <Button title='submit' onPress={this.handleSignIn} />
+            </View>
+            <View style={styles.submit}>
+              <Button title="sign up" onPress={() => {
+                navigate('SignUp');
+              }} />
+            </View>
           </View>
-          <View style={styles.submit}>
-            <Button title="sign up" onPress={() => {
-              navigate('SignUp');
-            }} />
-          </View>
+          <Button title="get position" onPress={this.grabLocation}/>
         </View>
       )
     } else {
@@ -86,8 +106,14 @@ class Landing extends Component {
 
 const styles = StyleSheet.create({
   page: {
-    marginTop: 120,
     alignItems: 'center'
+  },
+  title: {
+    margin: 30,
+    fontSize: 30
+  },
+  form: {
+    marginTop: 30
   },
   textInput: {
     height: 40,
@@ -99,7 +125,6 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     height: 30,
-    width: 100,
     borderRadius: 5,
     margin: 5
   },
