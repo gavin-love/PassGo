@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, Button, StyleSheet } from 'react-native';
-import auth from '../firebase';
+import { auth } from '../firebase';
 
 class SignUp extends Component {
   constructor() {
@@ -26,18 +26,20 @@ class SignUp extends Component {
   }
 
   handleSignUp = () => {
-    auth()
+    auth
       .doCreateUserWithEmailAndPassword(
         this.state.email,
         this.state.password
       )
       .then(user => {
         if (user) {
-          user.updateProfile({
+          user.user.updateProfile({
             displayName: this.state.userName
           })
+          .then(user => {
+            return user
+          })
         }
-        return user
       })
       .then(user => this.postNewUser(user))
       .then(() => {

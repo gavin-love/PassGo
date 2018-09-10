@@ -8,7 +8,7 @@ class Landing extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
+      password: '',
       email: '',
       isLoading: false,
       loggedIn: false
@@ -21,7 +21,7 @@ class Landing extends Component {
 
   handleSignIn = () => {
     const { email, password } = this.state;
-      auth()
+    auth
       .doSignInWithEmailAndPassword(email, password)
       .then(response => {
         console.log(response)
@@ -36,9 +36,10 @@ class Landing extends Component {
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
+          console.log(user)
           this.setState({
             loggedIn: true,
-            userName: user._user.displayName
+            userName: user.displayName
           })
         }
       })
@@ -50,9 +51,9 @@ class Landing extends Component {
       return (
         <View>
           <Text>Email</Text>
-          <TextInput style={styles.textInput} value={this.state.name} onChangeText={(name) => this.setState({ name })} />
-          <Text>Password</Text>
           <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
+          <Text>Password</Text>
+          <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
           <View style={styles.submit}>
             <Button title='submit' onPress={this.handleSignIn} />
           </View>
@@ -69,7 +70,7 @@ class Landing extends Component {
           <Text>{`Welcome ${this.state.userName}!`}</Text>
           <View style={styles.signOut}>
             <Button title="Sign Out" onPress={() => {
-              auth().doSignOut()
+              auth.doSignOut()
                 .then(() => console.log('You were signed out'))
                 .catch(error => console.log(error.message))
             }} />

@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-var config = {
+const config = {
   apiKey: "AIzaSyAq7qtEOqlGptS7iG4szeRe3YkHjzcBS04",
   authDomain: "pass-go.firebaseapp.com",
   databaseURL: "https://pass-go.firebaseio.com",
@@ -18,4 +18,4 @@ const auth = firebase.auth();
 
 export {
   auth,
-}
+};
