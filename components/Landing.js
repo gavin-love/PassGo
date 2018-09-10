@@ -15,6 +15,10 @@ class Landing extends Component {
     }
   }
 
+  static navigationOptions = {
+    title: 'Pass Go!'
+  }
+
   fetchUserPoints = () => {
     return fetch('http://localhost:3000/api/v1/users')
   }
@@ -36,7 +40,6 @@ class Landing extends Component {
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
-          console.log(user)
           this.setState({
             loggedIn: true,
             userName: user.displayName
@@ -49,7 +52,7 @@ class Landing extends Component {
     const { navigate } = this.props.navigation;
     if (!this.state.loggedIn) {
       return (
-        <View>
+        <View style={styles.page}>
           <Text>Email</Text>
           <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
           <Text>Password</Text>
@@ -83,6 +86,7 @@ class Landing extends Component {
 
 const styles = StyleSheet.create({
   page: {
+    marginTop: 120,
     alignItems: 'center'
   },
   textInput: {
@@ -96,7 +100,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 30,
     width: 100,
-    borderRadius: 5
+    borderRadius: 5,
+    margin: 5
   },
   signOut: {
     borderColor: 'blue',
