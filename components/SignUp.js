@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, Button, StyleSheet } from 'react-native';
-import firebase from 'firebase';
+import auth from '../firebase';
 
 class SignUp extends Component {
   constructor() {
@@ -25,32 +25,32 @@ class SignUp extends Component {
       .catch(error => console.log(error.message))
   }
 
-  // handleSignUp = () => {
-  //   firebase.auth()
-  //     .createUserWithEmailAndPassword(
-  //       this.state.email,
-  //       this.state.password
-  //     )
-  //     .then(user => {
-  //       if (user) {
-  //         user.updateProfile({
-  //           displayName: this.state.userName
-  //         })
-  //       }
-  //       return user
-  //     })
-  //     .then(user => this.postNewUser(user))
-  //     .then(() => {
-  //       this.setState({
-  //         email: '',
-  //         password: '',
-  //         userName: ''
-  //       })
-  //     })
-  //     .catch(error => {
-  //       console.log(error.message)
-  //     })
-  // }
+  handleSignUp = () => {
+    auth()
+      .doCreateUserWithEmailAndPassword(
+        this.state.email,
+        this.state.password
+      )
+      .then(user => {
+        if (user) {
+          user.updateProfile({
+            displayName: this.state.userName
+          })
+        }
+        return user
+      })
+      .then(user => this.postNewUser(user))
+      .then(() => {
+        this.setState({
+          email: '',
+          password: '',
+          userName: ''
+        })
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+  }
 
   render() {
     return (

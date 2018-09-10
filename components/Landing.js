@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
-import firebase from 'firebase';
+import { auth, firebase } from '../firebase';
 // import PropTypes from 'prop-types';
 
 
@@ -19,30 +19,29 @@ class Landing extends Component {
     return fetch('http://localhost:3000/api/v1/users')
   }
 
-  // handleSignIn = () => {
-  //   const { email, password } = this.state;
-  //   firebase
-  //     .auth()
-  //     .signInWithEmailAndPassword(email, password)
-  //     .then(response => {
-  //       console.log(response)
-  //     })
-  //     .then(() => console.log('Welcome Back!'))
-  //     .catch(error => {
-  //       console.log(error.message)
-  //     })
-  // }
+  handleSignIn = () => {
+    const { email, password } = this.state;
+      auth()
+      .doSignInWithEmailAndPassword(email, password)
+      .then(response => {
+        console.log(response)
+      })
+      .then(() => console.log('Welcome Back!'))
+      .catch(error => {
+        console.log(error.message)
+      })
+  }
 
   componentDidMount() {
-    // firebase.auth()
-    //   .onAuthStateChanged(user => {
-    //     if (user) {
-    //       this.setState({
-    //         loggedIn: true,
-    //         userName: user._user.displayName
-    //       })
-    //     }
-    //   })
+    firebase.auth
+      .onAuthStateChanged(user => {
+        if (user) {
+          this.setState({
+            loggedIn: true,
+            userName: user._user.displayName
+          })
+        }
+      })
   }
 
   render() {
@@ -70,7 +69,7 @@ class Landing extends Component {
           <Text>{`Welcome ${this.state.userName}!`}</Text>
           <View style={styles.signOut}>
             <Button title="Sign Out" onPress={() => {
-              firebase.auth().signOut()
+              auth().doSignOut()
                 .then(() => console.log('You were signed out'))
                 .catch(error => console.log(error.message))
             }} />
