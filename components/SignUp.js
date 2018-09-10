@@ -64,7 +64,10 @@ class SignUp extends Component {
         <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
         <Text>Password</Text>
         <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
-        <Button title="sign up" onPress={this.handleSignUp} />
+        <Button title="sign up" onPress={() => {
+          this.handleSignUp();
+          this.props.navigation.navigate('Home');
+        }} />
       </View>
     )
   }

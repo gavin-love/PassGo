@@ -71,7 +71,7 @@ class Landing extends Component {
           <View style={styles.signOut}>
             <Button title="Sign Out" onPress={() => {
               auth.doSignOut()
-                .then(() => console.log('You were signed out'))
+                .then(() => this.setState({ loggedIn: false }))
                 .catch(error => console.log(error.message))
             }} />
           </View>
