@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 import { auth, firebase } from '../firebase';
 import Geolocation from 'react-native-geolocation-service';
+import CompaniesContainer from './CompaniesContainer';
 // import PropTypes from 'prop-types';
 
 
@@ -12,7 +13,8 @@ class Landing extends Component {
       password: '',
       email: '',
       isLoading: false,
-      loggedIn: false
+      loggedIn: false,
+      companies: [{}, {}, {}]
     }
   }
 
@@ -40,16 +42,14 @@ class Landing extends Component {
       })
   }
 
-  grabLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position)
-      },
-      (error) => {
-        console.log(error.message)
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 1000 }
-    );
+  sendPositionToBackend = (coords) => {
+    return fetch('http://localhost:3000/users/:id', {
+      method: 'PUT',
+      header: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(coords)
+    })
+    .then(response => response.json())
+    .then(result => console.log(result))
   }
 
   componentDidMount() {
@@ -62,6 +62,15 @@ class Landing extends Component {
           })
         }
       })
+    // Geolocation.watchPosition(
+    //   (position) => {
+    //     return this.sendPositionToBackend(position);
+    //   },
+    //   (error) => {
+    //     console.log(error.message)
+    //   },
+    //   { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0 }
+    // )
   }
 
   render() {
@@ -84,7 +93,6 @@ class Landing extends Component {
               }} />
             </View>
           </View>
-          <Button title="get position" onPress={this.grabLocation}/>
         </View>
       )
     } else {
@@ -97,6 +105,10 @@ class Landing extends Component {
                 .then(() => this.setState({ loggedIn: false }))
                 .catch(error => console.log(error.message))
             }} />
+          </View>
+          <View>
+            <Text>Your Companies:</Text>
+            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
           </View>
         </View>
       )
