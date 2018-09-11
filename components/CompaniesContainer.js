@@ -5,8 +5,8 @@ import Company from './Company';
 const CompaniesContainer = ({ companies }) => {
   return (
     <View>
-    {companies.map(company => {
-      return <Company name={company.name} points={company.points} />
+    {companies.map((company, index) => {
+      return <Company name={company.name} key={index} points={company.points} />
    })}
     </View>
   )

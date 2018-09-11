@@ -43,7 +43,7 @@ class Landing extends Component {
   }
 
   sendPositionToBackend = (coords) => {
-    return fetch('http://localhost:3000/users/:id', {
+    return fetch('http://localhost:3000/users/:user_id/locations', {
       method: 'PUT',
       header: { 'Content-Type': 'application/json' },
       body: JSON.stringify(coords)
