@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 import { auth, firebase } from '../firebase';
 import Geolocation from 'react-native-geolocation-service';
 import CompaniesContainer from './CompaniesContainer';
@@ -78,17 +78,17 @@ class Landing extends Component {
     if (!this.state.loggedIn) {
       return (
         <View style={styles.page}>
-          <Text style={styles.title}>Log In:</Text>
-          <View style={styles.form}>
-            <Text>Email</Text>
+          <Image source={require('./passgo1.png')} style={styles.logo}/>
+          <View>
+            <Text style={styles.inputTitle}>Email</Text>
             <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
-            <Text>Password</Text>
+            <Text style={styles.inputTitle}>Password</Text>
             <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
             <View style={styles.submit}>
-              <Button title='submit' onPress={this.handleSignIn} />
+              <Button title='submit' color="#f3f3f3" onPress={this.handleSignIn} />
             </View>
             <View style={styles.submit}>
-              <Button title="sign up" onPress={() => {
+              <Button title="sign up" color="#f3f3f3" onPress={() => {
                 navigate('SignUp');
               }} />
             </View>
@@ -107,7 +107,6 @@ class Landing extends Component {
             }} />
           </View>
           <View>
-            <Text>Your Companies:</Text>
             <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
           </View>
         </View>
@@ -118,32 +117,34 @@ class Landing extends Component {
 
 const styles = StyleSheet.create({
   page: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#3383bb',
+    height: 600
   },
-  title: {
-    margin: 30,
-    fontSize: 30
-  },
-  form: {
-    marginTop: 30
+  inputTitle: {
+    color: '#f3f3f3'
   },
   textInput: {
     height: 40,
-    borderColor: 'grey',
+    borderColor: '#24445b',
     borderWidth: 1,
     width: 200
   },
   submit: {
-    borderColor: 'grey',
+    borderColor: '#24445b',
     borderWidth: 1,
     height: 30,
     borderRadius: 5,
     margin: 5
   },
   signOut: {
-    borderColor: 'blue',
+    borderColor: '#24445b',
     borderWidth: 1,
     width: 100
+  },
+  logo: {
+    width: 300,
+    height: 300
   }
 })
 
