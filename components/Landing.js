@@ -14,8 +14,16 @@ class Landing extends Component {
       email: '',
       isLoading: false,
       loggedIn: false,
-      companies: [{}, {}, {}]
+      pressStatus: false
     }
+  }
+
+  _onHideUnderlay() {
+    this.setState({ pressStatus: false });
+  }
+
+  _onShowUnderlay() {
+    this.setState({ pressStatus: true });
   }
 
   static navigationOptions = {
@@ -64,7 +72,7 @@ class Landing extends Component {
       })
     // Geolocation.watchPosition(
     //   (position) => {
-    //     return this.sendPositionToBackend(position);
+    //     this.sendPositionToBackend(position);
     //   },
     //   (error) => {
     //     console.log(error.message)
@@ -99,15 +107,15 @@ class Landing extends Component {
       return (
         <View style={styles.page}>
           <Text>{`Welcome ${this.state.userName}!`}</Text>
+          <View>
+            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
+          </View>
           <View style={styles.signOut}>
             <Button title="Sign Out" onPress={() => {
               auth.doSignOut()
                 .then(() => this.setState({ loggedIn: false }))
                 .catch(error => console.log(error.message))
             }} />
-          </View>
-          <View>
-            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
           </View>
         </View>
       )
@@ -135,7 +143,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 30,
     borderRadius: 5,
-    margin: 5
+    margin: 5,
+    lineHeight: 13
   },
   signOut: {
     borderColor: '#24445b',
