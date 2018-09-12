@@ -35,6 +35,7 @@ class Landing extends Component {
   }
 
   handleSignIn = () => {
+    console.log('hello')
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
@@ -51,13 +52,14 @@ class Landing extends Component {
   }
 
   sendPositionToBackend = (coords) => {
-    return fetch('http://localhost:3000/users/:user_id/locations', {
-      method: 'PUT',
-      header: { 'Content-Type': 'application/json' },
+    return fetch(`http://localhost:3000//api/v1/users/${1}/locations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(coords)
     })
     .then(response => response.json())
     .then(result => console.log(result))
+    .catch(err => console.log(err))
   }
 
   componentDidMount() {
@@ -70,15 +72,16 @@ class Landing extends Component {
           })
         }
       })
-    // Geolocation.watchPosition(
-    //   (position) => {
-    //     this.sendPositionToBackend(position);
-    //   },
-    //   (error) => {
-    //     console.log(error.message)
-    //   },
-    //   { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0 }
-    // )
+    Geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } });
+      },
+      (error) => {
+        console.log(error.message)
+      },
+      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0, useSignificantChanges: true }
+    )
   }
 
   render() {
