@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 import { auth, firebase } from '../firebase';
+import Geolocation from 'react-native-geolocation-service';
+import CompaniesContainer from './CompaniesContainer';
 // import PropTypes from 'prop-types';
 
 
@@ -11,8 +13,21 @@ class Landing extends Component {
       password: '',
       email: '',
       isLoading: false,
-      loggedIn: false
+      loggedIn: false,
+      pressStatus: false
     }
+  }
+
+  _onHideUnderlay() {
+    this.setState({ pressStatus: false });
+  }
+
+  _onShowUnderlay() {
+    this.setState({ pressStatus: true });
+  }
+
+  static navigationOptions = {
+    title: 'Pass Go!'
   }
 
   fetchUserPoints = () => {
@@ -20,11 +35,15 @@ class Landing extends Component {
   }
 
   handleSignIn = () => {
+    console.log('hello')
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
-      .then(response => {
-        console.log(response)
+      .then(user => {
+        this.setState({
+          loggedIn: true,
+          displayName: user.user.displayName
+        })
       })
       .then(() => console.log('Welcome Back!'))
       .catch(error => {
@@ -32,35 +51,58 @@ class Landing extends Component {
       })
   }
 
+  sendPositionToBackend = (coords) => {
+    return fetch(`http://localhost:3000//api/v1/users/${1}/locations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(coords)
+    })
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+  }
+
   componentDidMount() {
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
-          console.log(user)
           this.setState({
             loggedIn: true,
             userName: user.displayName
           })
         }
       })
+    Geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } });
+      },
+      (error) => {
+        console.log(error.message)
+      },
+      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0, useSignificantChanges: true }
+    )
   }
 
   render() {
     const { navigate } = this.props.navigation;
     if (!this.state.loggedIn) {
       return (
-        <View>
-          <Text>Email</Text>
-          <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
-          <Text>Password</Text>
-          <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
-          <View style={styles.submit}>
-            <Button title='submit' onPress={this.handleSignIn} />
-          </View>
-          <View style={styles.submit}>
-            <Button title="sign up" onPress={() => {
-              navigate('SignUp');
-            }} />
+        <View style={styles.page}>
+          <Image source={require('./passgo1.png')} style={styles.logo}/>
+          <View>
+            <Text style={styles.inputTitle}>Email</Text>
+            <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
+            <View style={styles.submit}>
+              <Button title='submit' color="#f3f3f3" onPress={this.handleSignIn} />
+            </View>
+            <View style={styles.submit}>
+              <Button title="sign up" color="#f3f3f3" onPress={() => {
+                navigate('SignUp');
+              }} />
+            </View>
           </View>
         </View>
       )
@@ -68,10 +110,13 @@ class Landing extends Component {
       return (
         <View style={styles.page}>
           <Text>{`Welcome ${this.state.userName}!`}</Text>
+          <View>
+            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
+          </View>
           <View style={styles.signOut}>
             <Button title="Sign Out" onPress={() => {
               auth.doSignOut()
-                .then(() => console.log('You were signed out'))
+                .then(() => this.setState({ loggedIn: false }))
                 .catch(error => console.log(error.message))
             }} />
           </View>
@@ -83,25 +128,35 @@ class Landing extends Component {
 
 const styles = StyleSheet.create({
   page: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#3383bb',
+    height: 600
+  },
+  inputTitle: {
+    color: '#f3f3f3'
   },
   textInput: {
     height: 40,
-    borderColor: 'grey',
+    borderColor: '#24445b',
     borderWidth: 1,
     width: 200
   },
   submit: {
-    borderColor: 'grey',
+    borderColor: '#24445b',
     borderWidth: 1,
     height: 30,
-    width: 100,
-    borderRadius: 5
+    borderRadius: 5,
+    margin: 5,
+    lineHeight: 13
   },
   signOut: {
-    borderColor: 'blue',
+    borderColor: '#24445b',
     borderWidth: 1,
     width: 100
+  },
+  logo: {
+    width: 300,
+    height: 300
   }
 })
 

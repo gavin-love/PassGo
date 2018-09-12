@@ -18,7 +18,7 @@ class SignUp extends Component {
     return fetch('http://localhost:3000/api/v1/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user._user.email })
+      body: JSON.stringify({ user: { email: user.user.email, name: user.user.displayName } })
     })
       .then(response => response.json())
       .then(result => console.log(result))
@@ -26,22 +26,18 @@ class SignUp extends Component {
   }
 
   handleSignUp = () => {
-    auth
+    return auth
       .doCreateUserWithEmailAndPassword(
         this.state.email,
         this.state.password
       )
       .then(user => {
         if (user) {
-          user.user.updateProfile({
+          return user.user.updateProfile({
             displayName: this.state.userName
-          })
-          .then(user => {
-            return user
-          })
+          }).then(() => this.postNewUser(user))
         }
       })
-      .then(user => this.postNewUser(user))
       .then(() => {
         this.setState({
           email: '',
@@ -56,21 +52,35 @@ class SignUp extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Sign up for an account here</Text>
-        <Text>User Name</Text>
-        <TextInput name='user-name' value={this.state.userName} onChangeText={(text) => this.setState({ userName: text })} style={styles.textInput} />
-        <Text>Email</Text>
-        <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
-        <Text>Password</Text>
-        <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
-        <Button title="sign up" onPress={this.handleSignUp} />
+      <View style={styles.page}>
+          <View>
+            <Text style={styles.title}>Enter account info here:</Text>
+            <Text>User Name</Text>
+            <TextInput name='user-name' value={this.state.userName} onChangeText={(text) => this.setState({ userName: text })} style={styles.textInput} />
+            <Text>Email</Text>
+            <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
+            <Text>Password</Text>
+            <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
+            <View style={styles.submit}>
+              <Button title="sign up" onPress={() => {
+                this.handleSignUp()
+                  .then(() => this.props.navigation.navigate('Home'));
+        }} />
+          </View>
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  page: {
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 30,
+    width: 200
+  },
   textInput: {
     height: 40,
     borderColor: 'grey',
@@ -78,11 +88,12 @@ const styles = StyleSheet.create({
     width: 200
   },
   submit: {
+    justifyContent: 'center',
     borderColor: 'grey',
     borderWidth: 1,
     height: 30,
-    width: 100,
-    borderRadius: 5
+    borderRadius: 5,
+    margin: 10
   }
 })
 
