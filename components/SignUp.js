@@ -18,7 +18,7 @@ class SignUp extends Component {
     return fetch('http://localhost:3000/api/v1/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user._user.email })
+      body: JSON.stringify({ user: { email: user.user.email, name: user.user.displayName } })
     })
       .then(response => response.json())
       .then(result => console.log(result))
@@ -26,22 +26,18 @@ class SignUp extends Component {
   }
 
   handleSignUp = () => {
-    auth
+    return auth
       .doCreateUserWithEmailAndPassword(
         this.state.email,
         this.state.password
       )
       .then(user => {
         if (user) {
-          user.user.updateProfile({
+          return user.user.updateProfile({
             displayName: this.state.userName
-          })
-          .then(user => {
-            return user
-          })
+          }).then(() => this.postNewUser(user))
         }
       })
-      .then(user => this.postNewUser(user))
       .then(() => {
         this.setState({
           email: '',
@@ -67,9 +63,9 @@ class SignUp extends Component {
             <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
             <View style={styles.submit}>
               <Button title="sign up" onPress={() => {
-                this.handleSignUp();
-                this.props.navigation.navigate('Home');
-              }} />
+                this.handleSignUp()
+                  .then(() => this.props.navigation.navigate('Home'));
+        }} />
           </View>
         </View>
       </View>
