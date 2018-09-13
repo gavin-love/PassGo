@@ -14,8 +14,8 @@ const Company = ({name, points}) => {
             <Button color="#f3f3f3" title="REDEEM" onPress={() => {}}/>
           </View>
           <View>
-            <Text>Address:123 fakestreet</Text>
-            <Text>Denver, CO 80202</Text>
+            <Text style={styles.address}>Address:123 fakestreet</Text>
+            <Text style={styles.address}>Denver, CO 80202</Text>
           </View>
         </View>
         <Image source={require('../sliceworks.png')} style={styles.image}/>
@@ -28,7 +28,7 @@ export default Company;
 
 const styles = StyleSheet.create({
   card: {
-    borderColor: 'grey',
+    borderColor: '#24445b',
     borderWidth: 1
   },
   nameView: {
@@ -36,14 +36,23 @@ const styles = StyleSheet.create({
     margin: 10
   },
   name: {
-    fontSize: 30
+    fontSize: 30,
+    color: '#f3f3f3'
   },
   points: {
-    fontSize: 20
+    fontSize: 20,
+    color: '#f3f3f3'
+  },
+  address: {
+    color: '#f3f3f3'
   },
   redeem: {
     borderColor: '#24445b',
-    borderWidth: 1
+    borderWidth: 1,
+    shadowColor: '#f3f3f3',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
   boxes: {
     justifyContent: 'space-between',
