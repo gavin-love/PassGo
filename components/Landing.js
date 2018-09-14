@@ -109,9 +109,9 @@ class Landing extends Component {
     } else {
       return (
         <View style={styles.page}>
-          <Text style={styles.welcome}>{`Welcome ${this.state.userName}!`}</Text>
+          <Text style={styles.welcome}>{`Welcome ${this.state.userName || ''}!`}</Text>
           <View>
-            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
+            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]} navigate={navigate}/>
           </View>
           <View style={styles.signOut}>
             <Button title="Sign Out" color="#f3f3f3" onPress={() => {

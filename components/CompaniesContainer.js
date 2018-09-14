@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Company from './Company';
 
-const CompaniesContainer = ({ companies }) => {
+const CompaniesContainer = ({ companies, navigate }) => {
   return (
     <View style={styles.container}>
     <Text style={styles.title}>Your Companies:</Text>
     {
       companies.map((company, index) => {
-      return <Company name={company.name} key={index} points={company.points} />
+      return <Company name={company.name} key={index} points={company.points} navigate={navigate}/>
      })
     }
     </View>

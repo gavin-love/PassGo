@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, Button } from 'react-native';
 
-const Company = ({name, points}) => {
+const Company = ({name, points, navigate}) => {
   return (
     <View style={styles.card}>
       <View style={styles.boxes}>
@@ -11,7 +11,9 @@ const Company = ({name, points}) => {
             <Text style={styles.points}>Points: {points}</Text>
           </View>
           <View style={styles.redeem}>
-            <Button color="#f3f3f3" title="REDEEM" onPress={() => {}}/>
+            <Button color="#f3f3f3" title="REDEEM" onPress={() => {
+              navigate('Coupon')
+            }}/>
           </View>
           <View>
             <Text style={styles.address}>Address:123 fakestreet</Text>
