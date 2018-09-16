@@ -12,9 +12,11 @@ class Landing extends Component {
     this.state = {
       password: '',
       email: '',
+      user_id: null,
       isLoading: false,
       loggedIn: false,
-      pressStatus: false
+      pressStatus: false,
+      companies: []
     }
   }
 
@@ -39,30 +41,52 @@ class Landing extends Component {
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
-      .then(user => {
-        this.setState({
-          loggedIn: true,
-          displayName: user.user.displayName
-        })
-      })
+      .then(user => this.grabPosition(user.user.uid))
+      // .then(user => {
+      //   this.setState({
+      //     loggedIn: true,
+      //     // displayName: user.user.displayName
+      //   })
+      // })
       .then(() => console.log('Welcome Back!'))
       .catch(error => {
         console.log(error.message)
       })
   }
 
-  sendPositionToBackend = (coords) => {
-    return fetch(`http://localhost:3000//api/v1/users/${1}/locations`, {
+  sendPositionToBackend = (coords, user_id) => {
+    console.log('sent')
+    return fetch(`http://localhost:3000/api/v1/users/${user_id}/locations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(coords)
     })
     .then(response => response.json())
     .then(result => console.log(result))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err.message))
+  }
+
+  grabPosition = (user_id) => {
+    console.log('here')
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        console.log('go fuck yourself ray ray')
+        console.log(position)
+        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } }, user_id)
+      },
+      (error) => {
+        console.log(error.message)
+      },
+      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0 }
+    )
   }
 
   componentDidMount() {
+    fetch('http://localhost:3000/api/v1/users')
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(err => console.log(err.message))
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
@@ -70,18 +94,9 @@ class Landing extends Component {
             loggedIn: true,
             userName: user.displayName
           })
+          this.grabPosition(user.uid)
         }
       })
-    Geolocation.watchPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } });
-      },
-      (error) => {
-        console.log(error.message)
-      },
-      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0, useSignificantChanges: true }
-    )
   }
 
   render() {
