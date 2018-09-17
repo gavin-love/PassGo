@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, Button } from 'react-native';
 
-const Company = ({name, points, navigate}) => {
+const Company = ({name, points, street, state, zipcode, navigate}) => {
   return (
     <View style={styles.card}>
       <View style={styles.boxes}>
@@ -16,8 +16,8 @@ const Company = ({name, points, navigate}) => {
             }}/>
           </View>
           <View>
-            <Text style={styles.address}>Address:123 fakestreet</Text>
-            <Text style={styles.address}>Denver, CO 80202</Text>
+            <Text style={styles.address}>{street}</Text>
+            <Text style={styles.address}>{state + ', ' + zipcode}</Text>
           </View>
         </View>
         <Image source={require('../sliceworks.png')} style={styles.image}/>
@@ -31,7 +31,7 @@ export default Company;
 const styles = StyleSheet.create({
   card: {
     borderColor: '#24445b',
-    borderWidth: 1
+    borderWidth: 1,
   },
   nameView: {
     justifyContent: 'space-between',
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     color: '#f3f3f3'
   },
   address: {
-    color: '#f3f3f3'
+    color: '#f3f3f3',
+    fontSize: 15
   },
   redeem: {
     borderColor: '#24445b',

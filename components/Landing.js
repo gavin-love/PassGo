@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 import { auth, firebase } from '../firebase';
-import Geolocation from 'react-native-geolocation-service';
 import CompaniesContainer from './CompaniesContainer';
-// import PropTypes from 'prop-types';
-
 
 class Landing extends Component {
   constructor() {
@@ -32,8 +29,11 @@ class Landing extends Component {
     title: 'Pass Go!'
   }
 
-  fetchUserPoints = () => {
-    return fetch('http://localhost:3000/api/v1/users')
+  fetchUserPoints = (user_id) => {
+    fetch('https://pass-go.herokuapp.com/api/v1/users')
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(err => console.log(err.message))
   }
 
   handleSignIn = () => {
@@ -41,13 +41,16 @@ class Landing extends Component {
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
-      .then(user => this.grabPosition(user.user.uid))
-      // .then(user => {
-      //   this.setState({
-      //     loggedIn: true,
-      //     // displayName: user.user.displayName
-      //   })
-      // })
+      .then(user => {
+        this.grabPosition(user.user.uid)
+        return user
+      })
+      .then(user => {
+        this.setState({
+          loggedIn: true,
+          displayName: user.user.displayName
+        })
+      })
       .then(() => console.log('Welcome Back!'))
       .catch(error => {
         console.log(error.message)
@@ -55,38 +58,34 @@ class Landing extends Component {
   }
 
   sendPositionToBackend = (coords, user_id) => {
-    console.log('sent')
-    return fetch(`http://localhost:3000/api/v1/users/${user_id}/locations`, {
+    return fetch(`https://pass-go.herokuapp.com/api/v1/users/${user_id}/locations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(coords)
     })
     .then(response => response.json())
-    .then(result => console.log(result))
+    .then(result => {
+      console.log(result)
+      this.setState({ companies: result.companies })
+    })
     .catch(err => console.log(err.message))
   }
 
   grabPosition = (user_id) => {
     console.log('here')
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        console.log('go fuck yourself ray ray')
-        console.log(position)
         this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } }, user_id)
       },
       (error) => {
         console.log(error.message)
       },
-      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0 }
+      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0, useSignificantChanges: true }
     )
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/api/v1/users')
-      .then(response => response.json())
-      .then(result => console.log(result))
-      .catch(err => console.log(err.message))
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
@@ -126,7 +125,7 @@ class Landing extends Component {
         <View style={styles.page}>
           <Text style={styles.welcome}>{`Welcome ${this.state.userName || ''}!`}</Text>
           <View>
-            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]} navigate={navigate}/>
+            <CompaniesContainer companies={this.state.companies} navigate={navigate}/>
           </View>
           <View style={styles.signOut}>
             <Button title="Sign Out" color="#f3f3f3" onPress={() => {
@@ -148,7 +147,8 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   welcome: {
-    color: '#f3f3f3'
+    color: '#f3f3f3',
+    fontSize: 25
   },
   inputTitle: {
     color: '#f3f3f3',
