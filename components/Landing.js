@@ -38,7 +38,6 @@ class Landing extends Component {
   }
 
   handleSignIn = () => {
-    console.log('hello')
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
@@ -68,17 +67,14 @@ class Landing extends Component {
     })
     .then(response => response.json())
     .then(result => {
-      console.log(result)
       this.setState({ companies: result.companies })
     })
     .catch(err => console.log(err.message))
   }
 
   grabPosition = (user_id) => {
-    console.log('here')
     navigator.geolocation.watchPosition(
       (position) => {
-        console.log(position.coords)
         const { latitude, longitude } = position.coords;
         this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } }, user_id)
       },
@@ -89,7 +85,7 @@ class Landing extends Component {
     )
   }
 
-  async requestLocationPermission() {
+  async requestFineLocationPermission() {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -103,11 +99,26 @@ class Landing extends Component {
       }
   }
 
+  async requestCoarseLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+          'title': 'gps',
+          'message': 'please tell us where you are all the time'
+        }
+      )
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+
   componentDidMount() {
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
-          this.requestLocationPermission()
+          this.requestFineLocationPermission()
+          this.requestCoarseLocationPermission()
           this.setState({
             loggedIn: true,
             userName: user.displayName
@@ -130,10 +141,10 @@ class Landing extends Component {
             <Text style={styles.inputPassword}>Password</Text>
             <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
             <View style={styles.submit}>
-              <Button title='submit' color="#f3f3f3" disabled={false} onPress={this.handleSignIn} />
+              <Button title='submit' color='#3383bb' disabled={false} onPress={this.handleSignIn} />
             </View>
             <View style={styles.signUp}>
-              <Button title="sign up" color="#f3f3f3" disabled={false} onPress={() => {
+              <Button title="sign up" color='#3383bb' disabled={false} onPress={() => {
                 navigate('SignUp');
               }} />
             </View>
@@ -148,7 +159,7 @@ class Landing extends Component {
             <CompaniesContainer companies={this.state.companies} navigate={navigate}/>
           </View>
           <View style={styles.signOut}>
-            <Button title="Sign Out" disabled={false} color="#f3f3f3" onPress={() => {
+            <Button title="Sign Out" disabled={false} color='#3383bb' onPress={() => {
               auth.doSignOut()
                 .then(() => this.setState({ loggedIn: false }))
                 .catch(error => console.log(error.message))

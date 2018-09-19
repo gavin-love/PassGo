@@ -1,0 +1,578 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#3383bb",
+      "height": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../components/passgo1.png",
+      }
+    }
+    style={
+      Object {
+        "height": 300,
+        "width": 300,
+      }
+    }
+  />
+  <View>
+    <Text
+      style={
+        Object {
+          "color": "#f3f3f3",
+          "fontSize": 15,
+          "marginBottom": 5,
+        }
+      }
+    >
+      Email
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      style={
+        Object {
+          "borderColor": "#24445b",
+          "borderWidth": 1,
+          "height": 40,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 200,
+        }
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <Text
+      style={
+        Object {
+          "color": "#f3f3f3",
+          "fontSize": 15,
+          "marginBottom": 5,
+          "marginTop": 15,
+        }
+      }
+    >
+      Password
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      style={
+        Object {
+          "borderColor": "#24445b",
+          "borderWidth": 1,
+          "height": 40,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 200,
+        }
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "borderColor": "#24445b",
+          "borderRadius": 5,
+          "borderWidth": 1,
+          "height": 40,
+          "marginTop": 15,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 200,
+        }
+      }
+    >
+      <View
+        accessibilityComponentType="button"
+        accessibilityTraits={
+          Array [
+            "button",
+          ]
+        }
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {},
+            ]
+          }
+        >
+          <Text
+            disabled={false}
+            style={
+              Array [
+                Object {
+                  "color": "#007AFF",
+                  "fontSize": 18,
+                  "padding": 8,
+                  "textAlign": "center",
+                },
+                Object {
+                  "color": "#f3f3f3",
+                },
+              ]
+            }
+          >
+            submit
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "borderColor": "#24445b",
+          "borderRadius": 5,
+          "borderWidth": 1,
+          "height": 40,
+          "lineHeight": 13,
+          "margin": 5,
+          "marginTop": 60,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 80,
+        }
+      }
+    >
+      <View
+        accessibilityComponentType="button"
+        accessibilityTraits={
+          Array [
+            "button",
+          ]
+        }
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {},
+            ]
+          }
+        >
+          <Text
+            disabled={false}
+            style={
+              Array [
+                Object {
+                  "color": "#007AFF",
+                  "fontSize": 18,
+                  "padding": 8,
+                  "textAlign": "center",
+                },
+                Object {
+                  "color": "#f3f3f3",
+                },
+              ]
+            }
+          >
+            sign up
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly if user is logged in 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#3383bb",
+      "height": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#f3f3f3",
+        "fontSize": 25,
+      }
+    }
+  >
+    Welcome !
+  </Text>
+  <View>
+    <View
+      style={
+        Object {
+          "marginTop": 50,
+          "width": "90%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#f3f3f3",
+            "fontSize": 20,
+            "marginBottom": 15,
+          }
+        }
+      >
+        Your Companies:
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "borderColor": "#24445b",
+        "borderWidth": 1,
+        "marginTop": 10,
+        "shadowColor": "#f3f3f3",
+        "shadowOffset": Object {
+          "height": 2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.8,
+        "shadowRadius": 2,
+        "width": 100,
+      }
+    }
+  >
+    <View
+      accessibilityComponentType="button"
+      accessibilityTraits={
+        Array [
+          "button",
+        ]
+      }
+      accessible={true}
+      isTVSelectable={true}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          disabled={false}
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "padding": 8,
+                "textAlign": "center",
+              },
+              Object {
+                "color": "#f3f3f3",
+              },
+            ]
+          }
+        >
+          Sign Out
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly if user is not logged in 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#3383bb",
+      "height": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../components/passgo1.png",
+      }
+    }
+    style={
+      Object {
+        "height": 300,
+        "width": 300,
+      }
+    }
+  />
+  <View>
+    <Text
+      style={
+        Object {
+          "color": "#f3f3f3",
+          "fontSize": 15,
+          "marginBottom": 5,
+        }
+      }
+    >
+      Email
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      style={
+        Object {
+          "borderColor": "#24445b",
+          "borderWidth": 1,
+          "height": 40,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 200,
+        }
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <Text
+      style={
+        Object {
+          "color": "#f3f3f3",
+          "fontSize": 15,
+          "marginBottom": 5,
+          "marginTop": 15,
+        }
+      }
+    >
+      Password
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      style={
+        Object {
+          "borderColor": "#24445b",
+          "borderWidth": 1,
+          "height": 40,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 200,
+        }
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "borderColor": "#24445b",
+          "borderRadius": 5,
+          "borderWidth": 1,
+          "height": 40,
+          "marginTop": 15,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 200,
+        }
+      }
+    >
+      <View
+        accessibilityComponentType="button"
+        accessibilityTraits={
+          Array [
+            "button",
+          ]
+        }
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {},
+            ]
+          }
+        >
+          <Text
+            disabled={false}
+            style={
+              Array [
+                Object {
+                  "color": "#007AFF",
+                  "fontSize": 18,
+                  "padding": 8,
+                  "textAlign": "center",
+                },
+                Object {
+                  "color": "#f3f3f3",
+                },
+              ]
+            }
+          >
+            submit
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "borderColor": "#24445b",
+          "borderRadius": 5,
+          "borderWidth": 1,
+          "height": 40,
+          "lineHeight": 13,
+          "margin": 5,
+          "marginTop": 60,
+          "shadowColor": "#f3f3f3",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+          "width": 80,
+        }
+      }
+    >
+      <View
+        accessibilityComponentType="button"
+        accessibilityTraits={
+          Array [
+            "button",
+          ]
+        }
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {},
+            ]
+          }
+        >
+          <Text
+            disabled={false}
+            style={
+              Array [
+                Object {
+                  "color": "#007AFF",
+                  "fontSize": 18,
+                  "padding": 8,
+                  "textAlign": "center",
+                },
+                Object {
+                  "color": "#f3f3f3",
+                },
+              ]
+            }
+          >
+            sign up
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
