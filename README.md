@@ -6,7 +6,7 @@ This app tracks your location as you pass various businesses on your day to day 
 
 <b>Tech Stack:</b>
 
-react-native<br>ruby-on-rails<br>react-navigation<br>prop-types
+react-native<br>ruby-on-rails<br>react-navigation<br>prop-types<br>YELP API<br>GOOGLE GEOCODE API
 
 <b>Installation:</br>
 
