@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 import { auth, firebase } from '../firebase';
-import Geolocation from 'react-native-geolocation-service';
 import CompaniesContainer from './CompaniesContainer';
-// import PropTypes from 'prop-types';
-
+import { PermissionsAndroid } from 'react-native';
 
 class Landing extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       password: '',
       email: '',
+      user_id: null,
       isLoading: false,
       loggedIn: false,
-      pressStatus: false
-    }
+      pressStatus: false,
+      companies: []
+    };
   }
 
   _onHideUnderlay() {
@@ -30,58 +30,103 @@ class Landing extends Component {
     title: 'Pass Go!'
   }
 
-  fetchUserPoints = () => {
-    return fetch('http://localhost:3000/api/v1/users')
+  fetchUserPoints = (user_id) => {
+    fetch('https://pass-go.herokuapp.com/api/v1/users')
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(err => console.log(err.message));
   }
 
   handleSignIn = () => {
-    console.log('hello')
     const { email, password } = this.state;
     auth
       .doSignInWithEmailAndPassword(email, password)
       .then(user => {
+        this.grabPosition(user.user.uid);
+        return user;
+      })
+      .then(user => {
         this.setState({
           loggedIn: true,
-          displayName: user.user.displayName
-        })
+          displayName: user.user.displayName,
+          password: '',
+          email: ''
+        });
       })
       .then(() => console.log('Welcome Back!'))
       .catch(error => {
-        console.log(error.message)
-      })
+        console.log(error.message);
+      });
   }
 
-  sendPositionToBackend = (coords) => {
-    return fetch(`http://localhost:3000//api/v1/users/${1}/locations`, {
+  sendPositionToBackend = (coords, user_id) => {
+    return fetch(`https://pass-go.herokuapp.com/api/v1/users/${user_id}/locations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(coords)
     })
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(err => console.log(err))
+      .then(response => response.json())
+      .then(result => {
+        this.setState({ companies: result.companies });
+      })
+      .catch(error => console.log(error.message));
+  }
+
+  grabPosition = (user_id) => {
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } }, user_id);
+      },
+      (error) => {
+        console.log(error.message);
+      },
+      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 5000 }
+    );
+  }
+
+  async requestFineLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'gps',
+          'message': 'please tell us where you are all the time'
+        }
+      );
+    } catch(err) {
+      console.log(err.message);
+    }
+  }
+
+  async requestCoarseLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+          'title': 'gps',
+          'message': 'please tell us where you are all the time'
+        }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   componentDidMount() {
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
+          this.requestFineLocationPermission();
+          this.requestCoarseLocationPermission();
           this.setState({
             loggedIn: true,
             userName: user.displayName
-          })
+          });
+          
+          this.grabPosition(user.uid);
         }
-      })
-    Geolocation.watchPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } });
-      },
-      (error) => {
-        console.log(error.message)
-      },
-      { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 0, useSignificantChanges: true }
-    )
+      });
   }
 
   render() {
@@ -93,71 +138,112 @@ class Landing extends Component {
           <View>
             <Text style={styles.inputTitle}>Email</Text>
             <TextInput style={styles.textInput} value={this.state.email} onChangeText={(email) => this.setState({ email })} />
-            <Text style={styles.inputTitle}>Password</Text>
+            <Text style={styles.inputPassword}>Password</Text>
             <TextInput style={styles.textInput} value={this.state.password} onChangeText={(password) => this.setState({ password })} />
             <View style={styles.submit}>
-              <Button title='submit' color="#f3f3f3" onPress={this.handleSignIn} />
+              <Button title='submit' color='#3383bb' disabled={false} onPress={this.handleSignIn} />
             </View>
-            <View style={styles.submit}>
-              <Button title="sign up" color="#f3f3f3" onPress={() => {
+            <View style={styles.signUp}>
+              <Button title="sign up" color='#3383bb' disabled={false} onPress={() => {
                 navigate('SignUp');
               }} />
             </View>
           </View>
         </View>
-      )
+      );
     } else {
       return (
         <View style={styles.page}>
-          <Text>{`Welcome ${this.state.userName}!`}</Text>
+          <Text style={styles.welcome}>{`Welcome ${this.state.userName || ''}!`}</Text>
           <View>
-            <CompaniesContainer companies={[{ name: 'SliceWorks', points: 40 }]}/>
+            <CompaniesContainer companies={this.state.companies} navigate={navigate}/>
           </View>
           <View style={styles.signOut}>
-            <Button title="Sign Out" onPress={() => {
+            <Button title="Sign Out" disabled={false} color='#3383bb' onPress={() => {
               auth.doSignOut()
                 .then(() => this.setState({ loggedIn: false }))
-                .catch(error => console.log(error.message))
+                .catch(error => console.log(error.message));
             }} />
           </View>
         </View>
-      )
+      );
     }
   }
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   page: {
     alignItems: 'center',
     backgroundColor: '#3383bb',
-    height: 600
+    height: '100%'
+  },
+  welcome: {
+    color: '#f3f3f3',
+    fontSize: 25
   },
   inputTitle: {
-    color: '#f3f3f3'
+    color: '#f3f3f3',
+    fontSize: 15,
+    marginBottom: 5
+  },
+  inputPassword: {
+    color: '#f3f3f3',
+    marginTop: 15,
+    fontSize: 15,
+    marginBottom: 5
   },
   textInput: {
     height: 40,
     borderColor: '#24445b',
     borderWidth: 1,
-    width: 200
+    width: 200,
+    shadowColor: '#f3f3f3',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2
   },
   submit: {
     borderColor: '#24445b',
     borderWidth: 1,
-    height: 30,
+    height: 40,
+    width: 200,
+    alignSelf: 'center',
+    borderRadius: 5,
+    marginTop: 15,
+    shadowColor: '#f3f3f3',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+  },
+  signUp: {
+    borderColor: '#24445b',
+    borderWidth: 1,
+    height: 40,
+    width: 80,
     borderRadius: 5,
     margin: 5,
-    lineHeight: 13
+    lineHeight: 13,
+    marginTop: 60,
+    alignSelf: 'center',
+    shadowColor: '#f3f3f3',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
   signOut: {
     borderColor: '#24445b',
     borderWidth: 1,
-    width: 100
+    width: 100,
+    marginTop: 10,
+    shadowColor: '#f3f3f3',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
   logo: {
     width: 300,
     height: 300
   }
-})
+});
 
 export default Landing;
