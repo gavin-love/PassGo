@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, TextInput, Image } from 'react-native';
 import { auth, firebase } from '../firebase';
 import CompaniesContainer from './CompaniesContainer';
 import { PermissionsAndroid } from 'react-native';
+import PropTypes from 'prop-types';
 
 class Landing extends Component {
   constructor() {
@@ -34,7 +35,7 @@ class Landing extends Component {
     fetch('https://pass-go.herokuapp.com/api/v1/users')
       .then(response => response.json())
       .then(result => console.log(result))
-      .catch(err => console.log(err.message));
+      .catch(error => console.log(error.message));
   }
 
   handleSignIn = () => {
@@ -247,3 +248,7 @@ export const styles = StyleSheet.create({
 });
 
 export default Landing;
+
+Landing.propTypes = {
+  navigation: PropTypes.object
+};

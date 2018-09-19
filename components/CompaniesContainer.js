@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Company from './Company';
+import PropTypes from 'prop-types';
 
 const CompaniesContainer = ({ companies, navigate }) => {
   return (
@@ -38,3 +39,8 @@ const styles = StyleSheet.create({
     fontSize: 20
   }
 });
+
+CompaniesContainer.propTypes = {
+  companies: PropTypes.array,
+  navigate: PropTypes.func
+};
