@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, Button } from 'react-native';
+import PropTypes from 'prop-types';
 
 const Company = ({name, points, street, state, zipcode, navigate}) => {
   return (
@@ -69,3 +70,12 @@ const styles = StyleSheet.create({
     margin: 10
   }
 });
+
+Company.propTypes = {
+  name: PropTypes.string,
+  points: PropTypes.number,
+  street: PropTypes.string,
+  state: PropTypes.string,
+  zipcode: PropTypes.number,
+  navigate: PropTypes.func
+};
