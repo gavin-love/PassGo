@@ -8,8 +8,8 @@ const Coupon = (props) => {
       <Image source={require('../whole-pizza.png')} style={styles.icon}/>
       <Image source={require("../Qr-4.png")} style={styles.image}/>
     </View>
-  )
-}
+  );
+};
 
 export default Coupon;
 
@@ -35,5 +35,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 15,
     fontSize: 30
-  },
-})
+  }
+});

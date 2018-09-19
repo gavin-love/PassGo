@@ -12,7 +12,7 @@ const Company = ({name, points, street, state, zipcode, navigate}) => {
           </View>
           <View style={styles.redeem}>
             <Button color='#3383bb' title="REDEEM" onPress={() => {
-              navigate('Coupon')
+              navigate('Coupon');
             }}/>
           </View>
           <View>
@@ -23,8 +23,8 @@ const Company = ({name, points, street, state, zipcode, navigate}) => {
         <Image source={require('../sliceworks.png')} style={styles.image}/>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default Company;
 
@@ -33,9 +33,6 @@ const styles = StyleSheet.create({
     borderColor: '#24445b',
     borderWidth: 1,
     maxWidth: '95%'
-  },
-  boxes: {
-    width: '80%'
   },
   nameView: {
     justifyContent: 'space-between',
@@ -60,7 +57,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    maxWidth: 400,
+    maxWidth: 400
   },
   boxes: {
     justifyContent: 'space-between',
@@ -71,4 +68,4 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 10
   }
-})
+});

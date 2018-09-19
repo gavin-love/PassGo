@@ -18,12 +18,12 @@ const CompaniesContainer = ({ companies, navigate }) => {
               zipcode={company.zip_code} 
               navigate={navigate}
             />
-          )
+          );
         })
       }
     </View>
-  )
-}
+  );
+};
 
 export default CompaniesContainer;
 
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 20
   }
-})
+});

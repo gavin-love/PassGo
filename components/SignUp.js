@@ -4,14 +4,14 @@ import { auth } from '../firebase';
 
 class SignUp extends Component {
   constructor() {
-    super()
+    super();
     this.unsubscriber = null;
     this.state = {
       isAuthenticated: false,
       email: '',
       password: '',
       userName: ''
-    }
+    };
   }
 
   postNewUser = (user) => {
@@ -22,7 +22,7 @@ class SignUp extends Component {
     })
       .then(response => response.json())
       .then(result => console.log(result))
-      .catch(error => console.log(error.message))
+      .catch(error => console.log(error.message));
   }
 
   handleSignUp = () => {
@@ -47,29 +47,29 @@ class SignUp extends Component {
       })
       .catch(error => {
         console.log(error.message)
-      })
+      });
   }
 
   render() {
     return (
       <View style={styles.page}>
-          <View>
-            <Text style={styles.title}>Enter account info here:</Text>
-            <Text style={styles.name}>User Name</Text>
-            <TextInput name='user-name' value={this.state.userName} onChangeText={(text) => this.setState({ userName: text })} style={styles.textInput} />
-            <Text style={styles.email}>Email</Text>
-            <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
-            <Text style={styles.password}>Password</Text>
-            <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
-            <View style={styles.submit}>
-              <Button title="sign up" color="#f3f3f3" onPress={() => {
-                this.handleSignUp()
-                  .then(() => this.props.navigation.navigate('Home'));
-        }} />
+        <View>
+          <Text style={styles.title}>Enter account info here:</Text>
+          <Text style={styles.name}>User Name</Text>
+          <TextInput name='user-name' value={this.state.userName} onChangeText={(text) => this.setState({ userName: text })} style={styles.textInput} />
+          <Text style={styles.email}>Email</Text>
+          <TextInput name='email' value={this.state.email} onChangeText={(text) => this.setState({ email: text })} style={styles.textInput} />
+          <Text style={styles.password}>Password</Text>
+          <TextInput name='password' value={this.state.password} onChangeText={(text) => this.setState({ password: text })} style={styles.textInput} />
+          <View style={styles.submit}>
+            <Button title="sign up" color="#f3f3f3" onPress={() => {
+              this.handleSignUp()
+                .then(() => this.props.navigation.navigate('Home'));
+            }} />
           </View>
         </View>
       </View>
-    )
+    );
   }
 }
 
@@ -118,6 +118,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
   }
-})
+});
 
 export default SignUp;

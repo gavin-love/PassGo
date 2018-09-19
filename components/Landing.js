@@ -6,7 +6,7 @@ import { PermissionsAndroid } from 'react-native';
 
 class Landing extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       password: '',
       email: '',
@@ -15,7 +15,7 @@ class Landing extends Component {
       loggedIn: false,
       pressStatus: false,
       companies: []
-    }
+    };
   }
 
   _onHideUnderlay() {
@@ -34,7 +34,7 @@ class Landing extends Component {
     fetch('https://pass-go.herokuapp.com/api/v1/users')
       .then(response => response.json())
       .then(result => console.log(result))
-      .catch(err => console.log(err.message))
+      .catch(err => console.log(err.message));
   }
 
   handleSignIn = () => {
@@ -42,8 +42,8 @@ class Landing extends Component {
     auth
       .doSignInWithEmailAndPassword(email, password)
       .then(user => {
-        this.grabPosition(user.user.uid)
-        return user
+        this.grabPosition(user.user.uid);
+        return user;
       })
       .then(user => {
         this.setState({
@@ -51,12 +51,12 @@ class Landing extends Component {
           displayName: user.user.displayName,
           password: '',
           email: ''
-        })
+        });
       })
       .then(() => console.log('Welcome Back!'))
       .catch(error => {
-        console.log(error.message)
-      })
+        console.log(error.message);
+      });
   }
 
   sendPositionToBackend = (coords, user_id) => {
@@ -65,38 +65,38 @@ class Landing extends Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(coords)
     })
-    .then(response => response.json())
-    .then(result => {
-      this.setState({ companies: result.companies })
-    })
-    .catch(err => console.log(err.message))
+      .then(response => response.json())
+      .then(result => {
+        this.setState({ companies: result.companies });
+      })
+      .catch(error => console.log(error.message));
   }
 
   grabPosition = (user_id) => {
     navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } }, user_id)
+        this.sendPositionToBackend({ location: { lat: latitude, lng: longitude } }, user_id);
       },
       (error) => {
-        console.log(error.message)
+        console.log(error.message);
       },
       { enableHighAccuracy: true, distanceFilter: 10, maximumAge: 5000 }
-    )
+    );
   }
 
   async requestFineLocationPermission() {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            'title': 'gps',
-            'message': 'please tell us where you are all the time'
-          }
-        )
-      } catch(err) {
-        console.log(err.message)
-      }
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'gps',
+          'message': 'please tell us where you are all the time'
+        }
+      );
+    } catch(err) {
+      console.log(err.message);
+    }
   }
 
   async requestCoarseLocationPermission() {
@@ -107,9 +107,9 @@ class Landing extends Component {
           'title': 'gps',
           'message': 'please tell us where you are all the time'
         }
-      )
-    } catch (err) {
-      console.log(err.message)
+      );
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
@@ -117,16 +117,16 @@ class Landing extends Component {
     firebase.auth
       .onAuthStateChanged(user => {
         if (user) {
-          this.requestFineLocationPermission()
-          this.requestCoarseLocationPermission()
+          this.requestFineLocationPermission();
+          this.requestCoarseLocationPermission();
           this.setState({
             loggedIn: true,
             userName: user.displayName
-          })
+          });
           
-          this.grabPosition(user.uid)
+          this.grabPosition(user.uid);
         }
-      })
+      });
   }
 
   render() {
@@ -150,7 +150,7 @@ class Landing extends Component {
             </View>
           </View>
         </View>
-      )
+      );
     } else {
       return (
         <View style={styles.page}>
@@ -162,11 +162,11 @@ class Landing extends Component {
             <Button title="Sign Out" disabled={false} color='#3383bb' onPress={() => {
               auth.doSignOut()
                 .then(() => this.setState({ loggedIn: false }))
-                .catch(error => console.log(error.message))
+                .catch(error => console.log(error.message));
             }} />
           </View>
         </View>
-      )
+      );
     }
   }
 }
@@ -200,7 +200,7 @@ export const styles = StyleSheet.create({
     shadowColor: '#f3f3f3',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowRadius: 2
   },
   submit: {
     borderColor: '#24445b',
@@ -244,6 +244,6 @@ export const styles = StyleSheet.create({
     width: 300,
     height: 300
   }
-})
+});
 
 export default Landing;

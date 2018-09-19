@@ -7,6 +7,6 @@ const App = createStackNavigator({
   Home: { screen: Landing },
   SignUp: { screen: SignUp },
   Coupon: { screen: Coupon }
-})
+});
 
 export default App;
