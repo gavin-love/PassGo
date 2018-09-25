@@ -3,12 +3,12 @@
 
 # Description:
 
-When building this project we were looking to explore the possibilites of Geo-marketing. From the user prospective you will simply gain points for you everyday routine that will you eventually redeem for discounted or free items. From the business prospective you will gain knowledge about the types of poeple that pass by your business and you the connection to get people in the door. 
+When building this project we were looking to explore the possibilities of Geo-marketing. From the user perspective, you will simply gain points for your everyday routine that will you eventually redeem for discounted or free items. From the business perspective, you will gain knowledge about the types of people that pass by your business and you the connection to get people in the door.
 
 The app tracks your location as you pass various businesses on your day to day routine. If the business you pass is on the list, it will be added to your list of companies and you will be given a point for you. If you get enough points, you will receive a reward that can be redeemed at that business.
 
 # Future ierations
-In the future we would like to add time stamps to the points systems, this way the user can only gain two point per day fromn any given business. Another feature would be custom maps. Business could spend marketing money to be on an "adventure" type map, user wouod then pick these custom maps for their daily run or biking routine and earn points from said companies. We would also like to make the app multi-tenancy so the businesses would have a dash board where data analytics could be provided about people passing by their business.   
+In the future, we would like to add timestamps to the points systems, this way the user can only gain two points per day from any given business. Another feature would be custom maps. Business could spend marketing money to be on an "adventure" type map, the user would then pick these custom maps for their daily run or biking routine and earn points from said companies. We would also like to make the app multi-tenancy so the businesses would have a dashboard where data analytics could be provided about people passing by their business.  
 
 # Screenshot:
 
