@@ -7,7 +7,7 @@ When building this project we were looking to explore the possibilities of Geo-m
 
 The app tracks your location as you pass various businesses on your day to day routine. If the business you pass is on the list, it will be added to your list of companies and you will be given a point for you. If you get enough points, you will receive a reward that can be redeemed at that business.
 
-# Future ierations
+# Future iterations
 In the future, we would like to add timestamps to the points systems, this way the user can only gain two points per day from any given business. Another feature would be custom maps. Business could spend marketing money to be on an "adventure" type map, the user would then pick these custom maps for their daily run or biking routine and earn points from said companies. We would also like to make the app multi-tenancy so the businesses would have a dashboard where data analytics could be provided about people passing by their business.  
 
 # Screenshot:
